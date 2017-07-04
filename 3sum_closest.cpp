@@ -3,7 +3,6 @@
 
 using std::vector;
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 class Solution {
