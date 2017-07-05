@@ -7,6 +7,7 @@ set(TEST_SOURCES
   main.cpp
   3sum_closest.cpp
   regular_expression_matching.cpp
+  longest_common_prefix.cpp
 )
 
 add_executable(selftest ${TEST_SOURCES})
