@@ -8,6 +8,7 @@ set(TEST_SOURCES
   3sum_closest.cpp
   regular_expression_matching.cpp
   longest_common_prefix.cpp
+  letter_combinations_phone_number.cpp
 )
 
 add_executable(selftest ${TEST_SOURCES})
