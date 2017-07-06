@@ -27,11 +27,22 @@ private:
   const std::array<string, 10> digit_to_symbols{"", "", "abc", "def", "ghi", "jkl",
                                                 "mno", "pqrs", "tuv", "wxyz"};
 
-  void buildResultFromCombinations(vector<string> const& combinations,
-                                   vector<string>& res)
+  vector<string> buildResultFromCombinations(vector<string> const& combinations)
   {
+    if (combinations.size() == 0) return {};
+
+    size_t res_size = 1;
+    for (string const& s : combinations) {
+      res_size *= s.size();
+    }
+
+    vector<string> res;
+    res.reserve(res_size);
+
     string temp(combinations.size(), ' ');
     buildResultFromCombinationsIter(combinations, 0, temp, res);
+
+    return res;
   }
 
   void buildResultFromCombinationsIter(vector<string> const& combinations,
@@ -52,9 +63,6 @@ private:
 public:
   vector<string> letterCombinations(string digits)
   {
-    vector<string> res;
-    res.reserve(std::pow(4, digits.size())); // 4 - max symbols in digit
-
     vector<string> combinations;
     combinations.reserve(digits.size());
 
@@ -64,8 +72,7 @@ public:
       combinations.emplace_back(digit_to_symbols[d]);
     }
 
-    buildResultFromCombinations(combinations, res);
-    return res;
+    return buildResultFromCombinations(combinations);
   }
 };
 
@@ -73,6 +80,18 @@ TEST_CASE("letterCombinations work properly", "[letterCombinations]")
 {
   Solution sol;
 
+  REQUIRE((vector<string>{})
+          ==
+          sol.letterCombinations("")
+         );
+  REQUIRE((vector<string>{})
+          ==
+          sol.letterCombinations("01")
+         );
+  REQUIRE((vector<string>{"a", "b", "c"})
+          ==
+          sol.letterCombinations("012")
+         );
   REQUIRE((vector<string>{"ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"})
           ==
           sol.letterCombinations("23")
