@@ -71,7 +71,7 @@ TEST_CASE("letterCombinations work properly", "[letterCombinations]")
           ==
           sol.letterCombinations("")
          );
-  REQUIRE((vector<string>{""})
+  REQUIRE((vector<string>{})
           ==
           sol.letterCombinations("01")
          );
