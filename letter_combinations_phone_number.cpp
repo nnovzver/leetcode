@@ -26,53 +26,34 @@ class Solution
 private:
   const std::array<string, 10> digit_to_symbols{"", "", "abc", "def", "ghi", "jkl",
                                                 "mno", "pqrs", "tuv", "wxyz"};
-
-  vector<string> buildResultFromCombinations(vector<string> const& combinations)
-  {
-    if (combinations.size() == 0) return {};
-
-    size_t res_size = 1;
-    for (string const& s : combinations) {
-      res_size *= s.size();
-    }
-
-    vector<string> res;
-    res.reserve(res_size);
-
-    string temp(combinations.size(), ' ');
-    buildResultFromCombinationsIter(combinations, 0, temp, res);
-
-    return res;
-  }
-
-  void buildResultFromCombinationsIter(vector<string> const& combinations,
-                                   size_t layer, string& cur, vector<string>& res)
-  {
-    if (layer >= combinations.size()) {
-      res.emplace_back(cur);
-      return;
-    }
-
-    //iteration from left to right node on layer
-    for (size_t i = 0; i < combinations[layer].size(); ++i) {
-      cur[layer] = combinations[layer][i];
-      buildResultFromCombinationsIter(combinations, layer + 1, cur, res);
-    }
-  }
-
 public:
   vector<string> letterCombinations(string digits)
   {
-    vector<string> combinations;
-    combinations.reserve(digits.size());
+    if (digits.empty()) return {};
 
-    for (auto di = digits.begin(); di != digits.end(); ++di) {
-      int d = *di - '0';
-      if (d < 2) continue;
-      combinations.emplace_back(digit_to_symbols[d]);
+    vector<string> res, temp;
+    auto rough_res_size = std::pow(3, digits.size());
+    res.reserve(rough_res_size);
+    temp.reserve(rough_res_size);
+
+    res.emplace_back("");
+
+    for (size_t charIdx = 0; charIdx != digits.size(); ++charIdx) {
+      auto d = digits[charIdx] - '0';
+      if (d == 0 || d == 1) continue;
+      if (d < 0 || 9 < d) return {};
+      string const& combination = digit_to_symbols[d];
+
+      for (auto resIt = res.cbegin(); resIt != res.cend(); ++resIt) {
+        for (size_t charIdx = 0; charIdx != combination.size(); ++charIdx) {
+          temp.emplace_back(*resIt + combination[charIdx]);
+        }
+      }
+      temp.swap(res);
+      temp.clear();
     }
 
-    return buildResultFromCombinations(combinations);
+    return res;
   }
 };
 
@@ -82,9 +63,13 @@ TEST_CASE("letterCombinations work properly", "[letterCombinations]")
 
   REQUIRE((vector<string>{})
           ==
-          sol.letterCombinations("")
+          sol.letterCombinations("1b")
          );
   REQUIRE((vector<string>{})
+          ==
+          sol.letterCombinations("")
+         );
+  REQUIRE((vector<string>{""})
           ==
           sol.letterCombinations("01")
          );
