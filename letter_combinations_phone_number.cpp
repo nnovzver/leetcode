@@ -33,10 +33,7 @@ public:
   {
     if (digits.empty()) return {};
 
-    vector<string> res, temp;
-    auto rough_res_size = std::pow(3, digits.size());
-    res.reserve(rough_res_size);
-    temp.reserve(rough_res_size);
+    vector<string> res;
 
     res.emplace_back("");
 
@@ -46,16 +43,16 @@ public:
       if (d < 0 || 9 < d) return {};
       string const& combination = digit_to_symbols[d];
 
-      for (auto resIt = res.cbegin(); resIt != res.cend(); ++resIt) {
+      vector<string> temp;
+      for (size_t resIdx = 0; resIdx != res.size(); ++resIdx) {
         for (size_t charIdx = 0; charIdx != combination.size(); ++charIdx) {
-          temp.emplace_back(*resIt + combination[charIdx]);
+          temp.emplace_back(res[resIdx] + combination[charIdx]);
         }
       }
       temp.swap(res);
-      temp.clear();
     }
 
-    return res;
+    return res == vector<string>{""} ? vector<string>{} : res;
   }
 };
 
