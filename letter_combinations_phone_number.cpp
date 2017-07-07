@@ -15,7 +15,9 @@
 // 8 -> "tuv"
 // 9 -> "wxyz"
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <string>
+#include <array>
 #include "catch.hpp"
 
 using std::vector;
