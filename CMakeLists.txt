@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS "-Wall ${CMAKE_CXX_FLAGS}")
 set(TEST_SOURCES
   main.cpp
   3sum_closest.cpp
+  4sum.cpp
   regular_expression_matching.cpp
   longest_common_prefix.cpp
   letter_combinations_phone_number.cpp
