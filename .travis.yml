@@ -13,6 +13,7 @@ matrix:
             - llvm-toolchain-trusty-4.0
           packages:
             - clang-4.0
+            - llvm-4.0
       env:
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
 
@@ -21,8 +22,8 @@ before_install:
 
 before_script:
   - llvm-cov --version
-  - llvm-cov-4.0 --version
   - ls -la /usr/bin/llvm*
+  - llvm-cov-4.0 --version
 
 script:
   - ./build.sh
