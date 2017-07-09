@@ -30,4 +30,4 @@ script:
   - ./Debug/selftest
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -x llvm-cov-4.0
+  - bash <(curl -s https://codecov.io/bash) -x llvm-cov-4.0 -a gcov
