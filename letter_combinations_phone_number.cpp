@@ -26,8 +26,8 @@ using std::string;
 class Solution
 {
 private:
-  const std::array<string, 10> digit_to_symbols{"", "", "abc", "def", "ghi", "jkl",
-                                                "mno", "pqrs", "tuv", "wxyz"};
+  const std::array<string, 10> digit_to_symbols{{"", "", "abc", "def", "ghi", "jkl",
+                                                 "mno", "pqrs", "tuv", "wxyz"}};
 public:
   vector<string> letterCombinations(string digits)
   {
