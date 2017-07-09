@@ -20,12 +20,13 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 before_script:
-  - gcov --version
   - llvm-cov --version
+  - llvm-cov-4.0 --version
+  - ls -la /usr/bin/llvm*
 
 script:
   - ./build.sh
   - ./Debug/selftest
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -x llvm-cov
+  - bash <(curl -s https://codecov.io/bash) -x llvm-cov-4.0
