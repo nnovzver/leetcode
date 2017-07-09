@@ -1,0 +1,8 @@
+language: cpp
+compiler: clang
+sudo: false
+dist: trusty
+
+script:
+  - ./build.sh
+  - ./Debug/selftest
