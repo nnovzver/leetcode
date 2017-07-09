@@ -29,7 +29,9 @@ TEST_CASE("longestCommonPrefix work properly", "[longestCommonPrefix]")
   Solution sol;
   vector<string> v1 = {"abcd", "abc", "ab"};
   vector<string> v2 = {"ab", "abc", "abcd"};
+  vector<string> v3 = {};
 
   REQUIRE("ab" == sol.longestCommonPrefix(v1));
   REQUIRE("ab" == sol.longestCommonPrefix(v2));
+  REQUIRE("" == sol.longestCommonPrefix(v3));
 }
