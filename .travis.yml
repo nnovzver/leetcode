@@ -6,3 +6,6 @@ dist: trusty
 script:
   - ./build.sh
   - ./Debug/selftest
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
