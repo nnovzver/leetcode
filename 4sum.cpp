@@ -66,6 +66,7 @@ TEST_CASE("fourSum work properly", "[fourSum]")
 
   vector<int> v1 = {1, 0, -1, 0, -2, 2};
   vector<int> v2 = {1, 2, 3};
+  vector<int> v3 = {-1, -1, -1, 0, 0, 0};
 
   REQUIRE(vector<vector<int>>{} == sol.fourSum(v2, 0));
   REQUIRE((vector<vector<int>>{
@@ -73,4 +74,7 @@ TEST_CASE("fourSum work properly", "[fourSum]")
       {-2, 0, 0, 2},
       {-1, 0, 0, 1},
   }) == sol.fourSum(v1, 0));
+  REQUIRE((vector<vector<int>>{
+      {-1, -1, -1, 0},
+  }) == sol.fourSum(v3, -3));
 }
