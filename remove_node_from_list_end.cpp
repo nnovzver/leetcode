@@ -19,11 +19,197 @@
  * };
  */
 
-struct ListNode;
+#include <memory>
+#include <initializer_list>
+#include <sstream>
+#include "catch.hpp"
 
-class Solution {
+struct ListNode
+{
+  int val;
+  ListNode *next;
+  ListNode(int x) : val(x), next(nullptr) {}
+};
+
+using list_ptr = std::unique_ptr<ListNode, void(*)(ListNode* head)>;
+
+ListNode* create_list_impl()
+{
+  return nullptr;
+}
+
+template <typename T>
+ListNode* create_list_impl(T one)
+{
+  return new ListNode(one);
+}
+
+template <typename T, typename... Ts>
+ListNode* create_list_impl(T first, Ts... args)
+{
+  ListNode* res = new ListNode(first);
+  res->next = create_list_impl(args...);
+
+  return res;
+}
+
+template <typename... Ts>
+list_ptr create_list(Ts... args)
+{
+  auto res = list_ptr(nullptr,
+    [](ListNode* head){
+      while (head) {
+        auto next = head->next;
+        delete head;
+        head = next;
+      }
+    });
+
+  res.reset(create_list_impl(args...));
+  return res;
+}
+
+list_ptr create_list(std::initializer_list<int> l)
+{
+  auto res = list_ptr(nullptr,
+    [](ListNode* head){
+      while (head) {
+        auto next = head->next;
+        delete head;
+        head = next;
+      }
+    });
+
+  ListNode* cur = nullptr;
+  for (auto i = l.begin(); i != l.end(); ++i) {
+    if (i == l.begin()) {
+      res.reset(new ListNode(*i));
+      cur = res.get();
+    }
+    else {
+      cur->next = new ListNode(*i);
+      cur = cur->next;
+    }
+  }
+
+  return res;
+}
+
+std::ostream& operator<<(std::ostream& os, list_ptr const& l)
+{
+  ListNode* node = l.get();
+  int count = 0;
+  while (node) {
+    os << (count++ ? "->" : "") << node->val;
+    node = node->next;
+  }
+  return os;
+}
+
+bool operator==(ListNode const& lhs, ListNode const& rhs)
+{
+  if (&lhs == &rhs) return true;
+
+  ListNode const* first = &lhs;
+  ListNode const* second = &rhs;
+
+  while (first && second) {
+    // if not equal values
+    if (first->val != second->val) return false;
+    first = second->next;
+    second = second->next;
+  }
+
+  // if not equal sizes
+  if (first || second) {
+    return false;
+  }
+
+  return true;
+}
+
+bool operator==(list_ptr const& lhs, list_ptr const& rhs)
+{
+  return *lhs.get() == *rhs.get();
+}
+
+class Solution
+{
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-      return nullptr;
+    ListNode* removeNthFromEnd(ListNode* head, int n)
+    {
+      if (n <= 0) return head;
+      if (head == nullptr) return head;
+
+      ListNode* first = head;
+      ListNode* second = head;
+
+      for (int i = 0; i < n; ++i) {
+        if (second == nullptr) return head;
+        second = second->next;
+      }
+
+      while (second) {
+        first = first->next;
+        second = second->next;
+      }
+
+      // delete last element
+      if (first->next == nullptr) {
+        delete first;
+        if (first == head) return nullptr;
+      }
+      else {
+        ListNode* tmp = first->next;
+        std::swap(*first, *first->next);
+        delete tmp;
+      }
+
+      return head;
     }
 };
+
+TEST_CASE("removeNthFromEnd work properly", "[removeNthFromEnd]")
+{
+  Solution sol;
+
+  {
+    auto l1 = create_list(1, 2, 3, 4, 5);
+    std::ostringstream ostr;
+    ostr << l1;
+    REQUIRE("1->2->3->4->5" == ostr.str());
+  }
+
+  {
+    auto l1 = create_list(1, 2, 3, 4, 5);
+    auto l2 = create_list(1, 2, 3, 4, 5);
+    auto l3 = create_list(1, 2, 3, 4);
+    REQUIRE(l1 == l2);
+    REQUIRE(l1 != l3);
+  }
+
+  {
+    auto l1 = create_list(1, 2, 3, 4, 5);
+    auto l2 = create_list(1, 2, 3, 5);
+    ListNode* head = sol.removeNthFromEnd(l1.get(), 2);
+    REQUIRE(head == l1.get());
+    REQUIRE(l1 == l2);
+  }
+
+  {
+    auto l1 = create_list();
+    ListNode* head = sol.removeNthFromEnd(l1.get(), 0);
+    REQUIRE(nullptr == head);
+  }
+
+  {
+    auto l1 = create_list(1);
+    auto l2 = create_list(1);
+    sol.removeNthFromEnd(l1.get(), 0);
+    REQUIRE(l1 == l2);
+
+    ListNode* l1_ptr = l1.release();
+    ListNode* head = sol.removeNthFromEnd(l1_ptr, 1);
+    REQUIRE(nullptr == head);
+  }
+}

@@ -11,6 +11,7 @@ set(TEST_SOURCES
   regular_expression_matching.cpp
   longest_common_prefix.cpp
   letter_combinations_phone_number.cpp
+  remove_node_from_list_end.cpp
 )
 
 add_executable(selftest ${TEST_SOURCES})
