@@ -133,6 +133,11 @@ bool operator==(list_ptr const& lhs, list_ptr const& rhs)
   return *lhs.get() == *rhs.get();
 }
 
+bool operator!=(list_ptr const& lhs, list_ptr const& rhs)
+{
+  return !(lhs == rhs);
+}
+
 class Solution
 {
 public:
