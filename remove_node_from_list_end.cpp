@@ -33,6 +33,15 @@ struct ListNode
 
 using list_ptr = std::unique_ptr<ListNode, void(*)(ListNode* head)>;
 
+void delete_list(ListNode* head)
+{
+  while (head) {
+    auto next = head->next;
+    delete head;
+    head = next;
+  }
+}
+
 ListNode* create_list_impl()
 {
   return nullptr;
@@ -56,14 +65,7 @@ ListNode* create_list_impl(T first, Ts... args)
 template <typename... Ts>
 list_ptr create_list(Ts... args)
 {
-  auto res = list_ptr(nullptr,
-    [](ListNode* head){
-      while (head) {
-        auto next = head->next;
-        delete head;
-        head = next;
-      }
-    });
+  auto res = list_ptr(nullptr, delete_list);
 
   res.reset(create_list_impl(args...));
   return res;
@@ -71,14 +73,7 @@ list_ptr create_list(Ts... args)
 
 list_ptr create_list(std::initializer_list<int> l)
 {
-  auto res = list_ptr(nullptr,
-    [](ListNode* head){
-      while (head) {
-        auto next = head->next;
-        delete head;
-        head = next;
-      }
-    });
+  auto res = list_ptr(nullptr, delete_list);
 
   ListNode* cur = nullptr;
   for (auto i = l.begin(); i != l.end(); ++i) {
