@@ -178,6 +178,12 @@ TEST_CASE("removeNthFromEnd work properly", "[removeNthFromEnd]")
   Solution sol;
 
   {
+    auto l1 = create_list({1, 2, 3, 4, 5});
+    auto l2 = create_list(1, 2, 3, 4, 5);
+    REQUIRE(l1 == l2);
+  }
+
+  {
     auto l1 = create_list(1, 2, 3, 4, 5);
     std::ostringstream ostr;
     ostr << l1;
