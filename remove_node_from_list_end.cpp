@@ -116,7 +116,7 @@ bool operator==(ListNode const& lhs, ListNode const& rhs)
   while (first && second) {
     // if not equal values
     if (first->val != second->val) return false;
-    first = second->next;
+    first = first->next;
     second = second->next;
   }
 
@@ -145,25 +145,24 @@ public:
       ListNode* second = head;
 
       for (int i = 0; i < n; ++i) {
-        if (second == nullptr) return head;
+        if (!second) return head;
         second = second->next;
       }
+      // delete first
+      if (!second) {
+        head = first->next;
+        delete first;
+        return head;
+      }
 
-      while (second) {
+      while (second->next) {
         first = first->next;
         second = second->next;
       }
 
-      // delete last element
-      if (first->next == nullptr) {
-        delete first;
-        if (first == head) return nullptr;
-      }
-      else {
-        ListNode* tmp = first->next;
-        std::swap(*first, *first->next);
-        delete tmp;
-      }
+      ListNode* tmp = first->next->next;
+      delete first->next;
+      first->next = tmp;
 
       return head;
     }
@@ -206,6 +205,17 @@ TEST_CASE("removeNthFromEnd work properly", "[removeNthFromEnd]")
     auto l1 = create_list(1);
     auto l2 = create_list(1);
     sol.removeNthFromEnd(l1.get(), 0);
+    REQUIRE(l1 == l2);
+
+    ListNode* l1_ptr = l1.release();
+    ListNode* head = sol.removeNthFromEnd(l1_ptr, 1);
+    REQUIRE(nullptr == head);
+  }
+
+  {
+    auto l1 = create_list(1, 2);
+    auto l2 = create_list(1);
+    sol.removeNthFromEnd(l1.get(), 1);
     REQUIRE(l1 == l2);
 
     ListNode* l1_ptr = l1.release();
