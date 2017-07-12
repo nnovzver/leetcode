@@ -12,6 +12,7 @@ set(TEST_SOURCES
   longest_common_prefix.cpp
   letter_combinations_phone_number.cpp
   remove_node_from_list_end.cpp
+  list_node.cpp
 )
 
 add_executable(selftest ${TEST_SOURCES})
