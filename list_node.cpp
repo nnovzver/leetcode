@@ -1,11 +1,6 @@
 #include "list_node.h"
 #include "catch.hpp"
 
-ListNode* create_list_impl()
-{
-  return nullptr;
-}
-
 void delete_list(ListNode* head)
 {
   while (head) {

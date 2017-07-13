@@ -13,12 +13,11 @@ using list_ptr = std::unique_ptr<ListNode, void(*)(ListNode* head)>;
 
 void delete_list(ListNode* head);
 
-ListNode* create_list_impl();
-
-template <typename T>
-ListNode* create_list_impl(T one)
+namespace detail
 {
-  return new ListNode(one);
+inline ListNode* create_list_impl()
+{
+  return nullptr;
 }
 
 template <typename T, typename... Ts>
@@ -29,13 +28,14 @@ ListNode* create_list_impl(T first, Ts... args)
 
   return res;
 }
+} // namespace detail
 
 template <typename... Ts>
 list_ptr create_list(Ts... args)
 {
   auto res = list_ptr(nullptr, delete_list);
 
-  res.reset(create_list_impl(args...));
+  res.reset(detail::create_list_impl(args...));
   return res;
 }
 
