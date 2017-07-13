@@ -15,28 +15,35 @@ void delete_list(ListNode* head);
 
 namespace detail
 {
-inline ListNode* create_list_impl()
+inline ListNode* create_list_impl(bool&) noexcept
 {
   return nullptr;
 }
 
 template <typename T, typename... Ts>
-ListNode* create_list_impl(T first, Ts... args)
+ListNode* create_list_impl(bool& bad_list, T first, Ts... args) noexcept
 {
-  ListNode* res = new ListNode(first);
-  res->next = create_list_impl(args...);
+  ListNode* res = new(std::nothrow) ListNode(first);
+  if (res == nullptr) {
+    bad_list = true;
+    return nullptr;
+  }
+
+  res->next = create_list_impl(bad_list, args...);
+  if (bad_list) {
+    delete res;
+    return nullptr;
+  }
 
   return res;
 }
 } // namespace detail
 
 template <typename... Ts>
-list_ptr create_list(Ts... args)
+list_ptr create_list(Ts... args) noexcept
 {
-  auto res = list_ptr(nullptr, delete_list);
-
-  res.reset(detail::create_list_impl(args...));
-  return res;
+  bool bad_list = false;
+  return list_ptr(detail::create_list_impl(bad_list, args...), delete_list);
 }
 
 
