@@ -13,6 +13,7 @@ set(TEST_SOURCES
   letter_combinations_phone_number.cpp
   remove_node_from_list_end.cpp
   list_node.cpp
+  insertion_sort_list.cpp
 )
 
 add_executable(selftest ${TEST_SOURCES})
