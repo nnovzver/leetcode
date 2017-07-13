@@ -25,9 +25,7 @@ add_executable(${TARGET} ${TEST_SOURCES})
 
 include(CodeCoverage)
 set(COVERAGE_EXCLUDES
-  "/usr/include/c++/7.1.1/*"
-  "/usr/include/c++/7.1.1/bits/*"
-  "/usr/include/c++/7.1.1/ext/*"
+  "*usr/include/*"
   "${CMAKE_CURRENT_SOURCE_DIR}/catch.hpp"
   )
 setup_target_for_coverage(NAME ${TARGET}_coverage EXECUTABLE ${TARGET})
