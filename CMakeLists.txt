@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 set(CMAKE_CXX_FLAGS "-Wall -Werror -Wextra -Weffc++ ${CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "-O0 -fprofile-arcs -ftest-coverage ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-O0 --coverage ${CMAKE_CXX_FLAGS}")
 
 set(TEST_SOURCES
   main.cpp
