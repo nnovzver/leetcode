@@ -22,6 +22,10 @@ set(TEST_SOURCES
 
 add_executable(${TARGET} ${TEST_SOURCES})
 
+enable_testing()
+add_test(test ${TARGET})
+add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS ${TARGET})
+
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   include(CodeCoverage)
   set(COVERAGE_EXCLUDES
