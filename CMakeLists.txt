@@ -18,6 +18,7 @@ set(TEST_SOURCES
   remove_node_from_list_end.cpp
   list_node.cpp
   insertion_sort_list.cpp
+  roman_to_int.cpp
   )
 
 add_executable(${TARGET} ${TEST_SOURCES})
