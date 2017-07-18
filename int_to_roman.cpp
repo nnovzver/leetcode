@@ -11,9 +11,8 @@ using std::string;
 class Solution
 {
 public:
-  string intToRoman(int num)
+  string intToRoman(int /*num*/)
   {
-    num = 0;
     return "i";
   }
 };

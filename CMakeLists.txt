@@ -20,6 +20,7 @@ set(TEST_SOURCES
   insertion_sort_list.cpp
   roman_to_int.cpp
   int_to_roman.cpp
+  valid_parentheses.cpp
   )
 
 add_executable(${TARGET} ${TEST_SOURCES})
