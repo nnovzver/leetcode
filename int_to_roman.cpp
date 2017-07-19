@@ -5,50 +5,51 @@
 // I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000
 
 #include <string>
-#include <vector>
+#include <array>
+#include <algorithm>
 #include "catch.hpp"
 
 using std::string;
 
 class Solution
 {
-  struct IntRomanPair
-  {
-    int integer;
-    char roman;
-  };
-  static const std::vector<IntRomanPair> romans;
+  static const std::array<char, 7> romans;
 
 public:
   string intToRoman(int num)
   {
     string res;
+    res.reserve(10);
 
-    for (auto i = romans.begin()+2; i < romans.end(); i += 2) {
+    for (size_t i = 2; i < romans.size(); i += 2) {
       int div = num % 10;
       if (div == 4) {
-        res.insert(0, string(1, (i-2)->roman) + string(1, (i-1)->roman));
+        res.append(1, romans[i-1]);
+        res.append(1, romans[i-2]);
       }
       else if (div == 9) {
-        res.insert(0, string(1, (i-2)->roman) + string(1, i->roman));
+        res.append(1, romans[i]);
+        res.append(1, romans[i-2]);
       }
       else if (0 < div and div < 4) {
-        res.insert(0, div, (i-2)->roman);
+        res.append(div, romans[i-2]);
       }
       else if (div > 4) {
-        res.insert(0, string(1, (i-1)->roman) + string(div-5, (i-2)->roman));
+        res.append(div-5, romans[i-2]);
+        res.append(1, romans[i-1]);
       }
-      num /= 10;
+      num *= 0.1;
       if (num == 0) break;
     }
-    res.insert(0, string(num, 'M'));
+    res.append(num, 'M');
+
+    std::reverse(res.begin(), res.end());
 
     return res;
   }
 };
 
-const std::vector<Solution::IntRomanPair> Solution::romans = {
-  {1, 'I'}, {5, 'V'}, {10, 'X'}, {50, 'L'}, {100, 'C'}, {500, 'D'}, {1000, 'M'}};
+const std::array<char, 7> Solution::romans = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
 
 TEST_CASE("intToRoman works properly", "[intToRoman]")
 {
