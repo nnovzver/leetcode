@@ -49,7 +49,7 @@ public:
   }
 };
 
-const std::array<char, 7> Solution::romans = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
+const std::array<char, 7> Solution::romans = {{'I', 'V', 'X', 'L', 'C', 'D', 'M'}};
 
 TEST_CASE("intToRoman works properly", "[intToRoman]")
 {
