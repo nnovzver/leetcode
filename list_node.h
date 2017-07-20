@@ -50,6 +50,7 @@ list_ptr create_list(Ts... args) noexcept
 list_ptr create_list(std::initializer_list<int> l);
 
 std::ostream& operator<<(std::ostream& os, list_ptr const& l);
+std::ostream& operator<<(std::ostream& os, ListNode const& l);
 
 bool operator==(ListNode const& lhs, ListNode const& rhs);
 

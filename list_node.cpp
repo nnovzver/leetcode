@@ -29,15 +29,20 @@ list_ptr create_list(std::initializer_list<int> l)
   return res;
 }
 
-std::ostream& operator<<(std::ostream& os, list_ptr const& l)
+std::ostream& operator<<(std::ostream& os, ListNode const& l)
 {
-  ListNode* node = l.get();
+  ListNode const* node = &l;
   int count = 0;
   while (node) {
     os << (count++ ? "->" : "") << node->val;
     node = node->next;
   }
   return os;
+}
+
+std::ostream& operator<<(std::ostream& os, list_ptr const& l)
+{
+  return os << *l.get();
 }
 
 bool operator==(ListNode const& lhs, ListNode const& rhs)
@@ -84,6 +89,13 @@ TEST_CASE("ListNode work properly", "[ListNode]")
     auto l1 = create_list(1, 2, 3, 4, 5);
     std::ostringstream ostr;
     ostr << l1;
+    REQUIRE("1->2->3->4->5" == ostr.str());
+  }
+
+  {
+    auto l1 = create_list(1, 2, 3, 4, 5);
+    std::ostringstream ostr;
+    ostr << *l1.get();
     REQUIRE("1->2->3->4->5" == ostr.str());
   }
 
