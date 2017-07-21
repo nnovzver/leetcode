@@ -22,6 +22,7 @@ set(TEST_SOURCES
   int_to_roman.cpp
   valid_parentheses.cpp
   merge_two_sorted_lists.cpp
+  generate_parentheses.cpp
   )
 
 add_executable(${TARGET} ${TEST_SOURCES})
