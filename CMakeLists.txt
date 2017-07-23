@@ -26,6 +26,7 @@ set(TEST_SOURCES
   )
 
 add_executable(${TARGET} ${TEST_SOURCES})
+target_link_libraries(${TARGET} benchmark)
 
 enable_testing()
 add_test(test ${TARGET})
@@ -39,3 +40,5 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     )
   setup_target_for_coverage(NAME ${TARGET}_coverage EXECUTABLE ${TARGET})
 endif() # CMAKE_BUILD_TYPE STREQUAL "Debug"
+
+include(ConfigGBench)
