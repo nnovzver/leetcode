@@ -5,9 +5,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 set(PROJECT_NAME selftest)
 set(TARGET selftest)
 
-set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
-set(CMAKE_CXX_FLAGS "-Wall -Werror -Wextra -Weffc++ ${CMAKE_CXX_FLAGS}")
-
 set(TEST_SOURCES
   main.cpp
   3sum_closest.cpp
@@ -27,6 +24,7 @@ set(TEST_SOURCES
 
 add_executable(${TARGET} ${TEST_SOURCES})
 target_link_libraries(${TARGET} benchmark)
+target_compile_options(${TARGET} PRIVATE -std=c++11 -Wall -Werror -Wextra -Weffc++)
 
 enable_testing()
 add_test(test ${TARGET})
