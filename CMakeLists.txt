@@ -20,6 +20,7 @@ set(TEST_SOURCES
   valid_parentheses.cpp
   merge_two_sorted_lists.cpp
   generate_parentheses.cpp
+  merge_k_lists.cpp
   )
 
 add_executable(${TARGET} ${TEST_SOURCES})
