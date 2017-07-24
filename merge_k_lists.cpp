@@ -29,20 +29,19 @@ public:
     auto lists_end = std::partition(lists_begin, lists.end(),
       [](ListNode* v){return v != nullptr;});
 
-    // if no lists in vector
-    if (lists_end == lists_begin) return nullptr;
-
-    // init res and tail
-    auto min_head = std::min_element(lists_begin, lists_end,
-      [](ListNode* first, ListNode* second){return first->val < second->val;});
-    tail = res = *min_head;
-    *min_head = (*min_head)->next;
-
+    bool init = false;
     while (lists_begin != lists_end) {
       auto min_head = std::min_element(lists_begin, lists_end,
         [](ListNode* first, ListNode* second){return first->val < second->val;});
-      tail->next = *min_head;
-      tail = tail->next;
+
+      if (init) {
+        tail->next = *min_head;
+        tail = tail->next;
+      }
+      else {
+        tail = res = *min_head;
+        init = true;
+      }
       *min_head = (*min_head)->next;
 
       lists_end = std::partition(lists_begin, lists_end,
@@ -63,6 +62,14 @@ TEST_CASE("mergeKLists works properly", "[mergeKLists]")
   {
     vector<ListNode*> arg = {nullptr, nullptr, nullptr};
     REQUIRE(nullptr == sol.mergeKLists(arg));
+  }
+
+  {
+    vector<ListNode*> arg = {create_list(1).release(), nullptr, nullptr};
+    ListNode* ret = sol.mergeKLists(arg);
+    auto res = create_list(1);
+    REQUIRE(*res.get() == *ret);
+    delete_list(ret);
   }
 
   {
