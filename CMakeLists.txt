@@ -24,8 +24,7 @@ set(TEST_SOURCES
   )
 
 add_executable(${TARGET} ${TEST_SOURCES})
-target_link_libraries(${TARGET} benchmark)
-target_compile_options(${TARGET} PRIVATE -std=c++11 -Wall -Werror -Wextra)
+target_compile_options(${TARGET} PRIVATE -std=c++11 -Wall -Werror -Wextra -Weffc++)
 
 add_executable(selfbench selfbench.cpp ${TEST_SOURCES})
 target_compile_options(selfbench PRIVATE -std=c++11 -Wall -Werror -Wextra -DSELFBENCH)

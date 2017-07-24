@@ -14,7 +14,6 @@
 #include <algorithm>
 #include "list_node.h"
 #include "catch.hpp"
-#include "benchmark/benchmark.h"
 
 using std::vector;
 
@@ -105,6 +104,8 @@ TEST_CASE("mergeKLists works properly", "[mergeKLists]")
   }
 }
 
+#ifdef SELFBENCH
+#include "benchmark/benchmark.h"
 static void BM_mergeKLists(benchmark::State& state) {
   Solution sol;
 
@@ -119,3 +120,4 @@ static void BM_mergeKLists(benchmark::State& state) {
   }
 }
 BENCHMARK(BM_mergeKLists);
+#endif // SELFBENCH
