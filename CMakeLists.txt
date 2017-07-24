@@ -23,6 +23,17 @@ set(TEST_SOURCES
   merge_k_lists.cpp
   )
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  include(CodeCoverage)
+  append_coverage_compiler_flags()
+  set(COVERAGE_EXCLUDES
+    "*usr/include/*"
+    "${CMAKE_CURRENT_SOURCE_DIR}/catch.hpp"
+    )
+  setup_target_for_coverage(NAME ${TARGET}_coverage EXECUTABLE ${TARGET})
+endif() # CMAKE_BUILD_TYPE STREQUAL "Debug"
+
+
 add_executable(${TARGET} ${TEST_SOURCES})
 target_compile_options(${TARGET} PRIVATE -std=c++11 -Wall -Werror -Wextra -Weffc++)
 
@@ -33,14 +44,5 @@ target_link_libraries(selfbench benchmark)
 enable_testing()
 add_test(test ${TARGET})
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS ${TARGET})
-
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-  include(CodeCoverage)
-  set(COVERAGE_EXCLUDES
-    "*usr/include/*"
-    "${CMAKE_CURRENT_SOURCE_DIR}/catch.hpp"
-    )
-  setup_target_for_coverage(NAME ${TARGET}_coverage EXECUTABLE ${TARGET})
-endif() # CMAKE_BUILD_TYPE STREQUAL "Debug"
 
 include(ConfigGBench)
