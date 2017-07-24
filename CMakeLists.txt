@@ -25,7 +25,11 @@ set(TEST_SOURCES
 
 add_executable(${TARGET} ${TEST_SOURCES})
 target_link_libraries(${TARGET} benchmark)
-target_compile_options(${TARGET} PRIVATE -std=c++11 -Wall -Werror -Wextra -Weffc++)
+target_compile_options(${TARGET} PRIVATE -std=c++11 -Wall -Werror -Wextra)
+
+add_executable(selfbench selfbench.cpp ${TEST_SOURCES})
+target_compile_options(selfbench PRIVATE -std=c++11 -Wall -Werror -Wextra -DSELFBENCH)
+target_link_libraries(selfbench benchmark)
 
 enable_testing()
 add_test(test ${TARGET})

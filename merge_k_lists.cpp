@@ -14,6 +14,7 @@
 #include <algorithm>
 #include "list_node.h"
 #include "catch.hpp"
+#include "benchmark/benchmark.h"
 
 using std::vector;
 
@@ -103,3 +104,18 @@ TEST_CASE("mergeKLists works properly", "[mergeKLists]")
     delete_list(ret);
   }
 }
+
+static void BM_mergeKLists(benchmark::State& state) {
+  Solution sol;
+
+  while (state.KeepRunning()) {
+    vector<ListNode*> arg = {
+      create_list(1, 4, 7).release(),
+      create_list(2, 5, 8).release(),
+      create_list(3, 6, 9).release()};
+
+    ListNode* ret = sol.mergeKLists(arg);
+    delete_list(ret);
+  }
+}
+BENCHMARK(BM_mergeKLists);
