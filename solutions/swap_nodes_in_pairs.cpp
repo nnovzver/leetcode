@@ -18,12 +18,79 @@
  */
 
 #include "list_node.h"
+#include "catch.hpp"
 
 class Solution
 {
 public:
   ListNode* swapPairs(ListNode* head)
   {
-    return head;
+    ListNode* first = head;
+    if (first == nullptr) return nullptr;
+    ListNode* second = head->next;
+    if (second == nullptr) return head;
+
+    ListNode* res = second;
+    ListNode* tail = nullptr;
+
+    while (first != nullptr and second != nullptr) {
+      first->next = second->next;
+      second->next = first;
+      if (tail != nullptr) {
+        tail->next = second;
+      }
+      tail = first;
+
+      first = tail->next;
+      second = first != nullptr ? first->next : nullptr;
+    }
+
+    return res;
   }
 };
+
+TEST_CASE("swapPairs works properly", "[swapPairs]")
+{
+  Solution sol;
+
+  {
+    ListNode* l = create_list().release();
+    REQUIRE(nullptr == sol.swapPairs(l));
+    delete_list(l);
+  }
+
+  {
+    ListNode* l = create_list(1).release();
+    auto res = create_list(1);
+    REQUIRE(*res.get() == *sol.swapPairs(l));
+    delete_list(l);
+  }
+
+  {
+    ListNode* l = create_list(1).release();
+    auto res = create_list(1);
+    REQUIRE(*res.get() == *sol.swapPairs(l));
+    delete_list(l);
+  }
+
+  {
+    ListNode* l = create_list(1, 2).release();
+    auto res = create_list(2, 1);
+    REQUIRE(*res.get() == *sol.swapPairs(l));
+    delete_list(l);
+  }
+
+  {
+    ListNode* l = create_list(1, 2, 3).release();
+    auto res = create_list(2, 1, 3);
+    REQUIRE(*res.get() == *sol.swapPairs(l));
+    delete_list(l);
+  }
+
+  {
+    ListNode* l = create_list(1, 2, 3, 4).release();
+    auto res = create_list(2, 1, 4, 3);
+    REQUIRE(*res.get() == *sol.swapPairs(l));
+    delete_list(l);
+  }
+}
