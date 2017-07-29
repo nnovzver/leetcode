@@ -24,11 +24,13 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+#include "list_node.h"
 
 class Solution
 {
 public:
-  ListNode* reverseKGroup(ListNode* head, int k)
+  ListNode* reverseKGroup(ListNode* /*head*/, int /*k*/)
   {
+    return nullptr;
   }
 };
