@@ -76,21 +76,24 @@ TEST_CASE("swapPairs works properly", "[swapPairs]")
   {
     ListNode* l = create_list(1, 2).release();
     auto res = create_list(2, 1);
-    REQUIRE(*res.get() == *sol.swapPairs(l));
-    delete_list(l);
+    ListNode* ret = sol.swapPairs(l);
+    REQUIRE(*res.get() == *ret);
+    delete_list(ret);
   }
 
   {
     ListNode* l = create_list(1, 2, 3).release();
     auto res = create_list(2, 1, 3);
-    REQUIRE(*res.get() == *sol.swapPairs(l));
-    delete_list(l);
+    ListNode* ret = sol.swapPairs(l);
+    REQUIRE(*res.get() == *ret);
+    delete_list(ret);
   }
 
   {
     ListNode* l = create_list(1, 2, 3, 4).release();
     auto res = create_list(2, 1, 4, 3);
-    REQUIRE(*res.get() == *sol.swapPairs(l));
-    delete_list(l);
+    ListNode* ret = sol.swapPairs(l);
+    REQUIRE(*res.get() == *ret);
+    delete_list(ret);
   }
 }
