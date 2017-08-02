@@ -45,4 +45,12 @@ TEST_CASE("removeElement works properly")
     REQUIRE(2 == vec[1]);
     REQUIRE(4 == vec[2]);
   }
+
+  {
+    vector<int> vec = {3, 1, 2, 3, 4};
+    REQUIRE(3 == sol.removeElement(vec, 3));
+    REQUIRE(1 == vec[0]);
+    REQUIRE(2 == vec[1]);
+    REQUIRE(4 == vec[2]);
+  }
 }
