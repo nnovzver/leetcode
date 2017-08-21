@@ -15,13 +15,36 @@
 // 1,1,5 → 1,5,1
 
 #include <vector>
+#include <algorithm>
+#include "catch.hpp"
 
 using std::vector;
 
 class Solution
 {
 public:
-    void nextPermutation(vector<int>& /*nums*/)
+    void nextPermutation(vector<int>& nums)
     {
+      std::next_permutation(nums.begin(), nums.end());
     }
 };
+
+TEST_CASE("nextPermutation works properly")
+{
+  Solution sol;
+  {
+    vector<int> vec = {1, 2, 3};
+    sol.nextPermutation(vec);
+    REQUIRE(vec == vector<int>({1, 3, 2}));
+    sol.nextPermutation(vec);
+    REQUIRE(vec == vector<int>({2, 1, 3}));
+    sol.nextPermutation(vec);
+    REQUIRE(vec == vector<int>({2, 3, 1}));
+    sol.nextPermutation(vec);
+    REQUIRE(vec == vector<int>({3, 1, 2}));
+    sol.nextPermutation(vec);
+    REQUIRE(vec == vector<int>({3, 2, 1}));
+    sol.nextPermutation(vec);
+    REQUIRE(vec == vector<int>({1, 2, 3}));
+  }
+}
