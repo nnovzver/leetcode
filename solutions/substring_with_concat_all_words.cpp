@@ -14,6 +14,9 @@
 
 #include <string>
 #include <vector>
+#include <numeric>
+#include <algorithm>
+#include "catch.hpp"
 
 using std::string;
 using std::vector;
@@ -21,8 +24,47 @@ using std::vector;
 class Solution
 {
 public:
-  vector<int> findSubstring(string /*s*/, vector<string>& /*words*/)
+  vector<int> findSubstring(string s, vector<string>& words)
   {
-    return {};
+    if (words.empty() or s.empty()) return {};
+
+    std::sort(words.begin(), words.end());
+    vector<int> res;
+    string pattern;
+
+    do {
+      pattern = "";
+      pattern = std::accumulate(words.begin(), words.end(), pattern);
+      string::size_type pos = 0;
+
+      for (int i = 0; i < 4; ++i) {
+        pos = s.find(pattern, pos);
+        if (pos != string::npos) {
+          res.emplace_back(pos);
+        }
+        else {
+          break;
+        }
+        ++pos;
+      }
+    } while (std::next_permutation(words.begin(), words.end()));
+
+    return res;
   }
 };
+
+TEST_CASE("findSubstring works properly")
+{
+  Solution sol;
+
+  vector<string> words = {"foo", "bar"};
+  vector<int> expected = {0, 9};
+  REQUIRE(expected == sol.findSubstring("barfoothefoobarman", words));
+
+  REQUIRE(vector<int>{} == sol.findSubstring("", words));
+
+  {
+    vector<string> words = {};
+    REQUIRE(vector<int>{} == sol.findSubstring("barfoothefoobarman", words));
+  }
+}
